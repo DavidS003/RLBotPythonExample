@@ -1,3 +1,4 @@
+from gettext import install
 import subprocess
 import sys
 
@@ -6,7 +7,8 @@ DEFAULT_LOGGER = 'rlbot'
 if __name__ == '__main__':
 
     try:
-        from rlbot.utils import public_utils, logging_utils
+        subprocess.call([sys.executable, "-m", "pip", "install", 'rlbot'])
+        from rlbot.utils import public_utils, logging_utils # type: ignore
 
         logger = logging_utils.get_logger(DEFAULT_LOGGER)
         if not public_utils.have_internet():
@@ -25,9 +27,11 @@ if __name__ == '__main__':
         subprocess.call([sys.executable, "-m", "pip", "install", '-r', 'requirements.txt', '--upgrade', '--upgrade-strategy=eager'])
 
     try:
-        from rlbot import runner
+        from rlbot import runner # type: ignore
         runner.main()
     except Exception as e:
         print("Encountered exception: ", e)
         print("Press enter to close.")
         input()
+        subprocess.call([sys.executable, "-m", "pip", "install", "rlgym-compat==1.0.2"])
+
